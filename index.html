@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zyntax | Software Developer & AI Engineer</title>
+<meta name="description" content="Zyntax membangun software kustom dan sistem AI untuk bisnis di Indonesia.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--fg:#fff;--mut:#a9a4b3;--pur:#8227ff;--pur2:#b385ff;--line:#26202e;--panel:#0d0b11;
+--disp:'Michroma','Eurostile','Arial Black',sans-serif;--body:'Manrope','Segoe UI',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:400 1.0625rem/1.65 var(--body);min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--pur2);outline-offset:3px}
+h1,h2,h3{font-family:var(--disp);font-weight:400;line-height:1.15}
+h1{font-size:clamp(2rem,5.2vw,3.9rem)}
+h2{font-size:clamp(1.5rem,3.2vw,2.3rem);margin-bottom:1rem}
+h3{font-size:1.05rem;margin-bottom:.5rem}
+p{max-width:62ch;color:var(--mut)}
+.wrap{width:min(1120px,92%);margin:0 auto}
+
+/* navbar */
+header{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:.7rem;font-family:var(--disp);font-size:1.15rem}
+.brand b{color:var(--pur);font-weight:400}
+.mark{width:46px;height:46px;overflow:hidden;position:relative;flex:none}
+.mark img{position:absolute;width:96px;max-width:none;left:-25px;top:-15px}
+nav ul{display:flex;gap:.4rem;list-style:none}
+nav a{display:block;padding:.5rem .95rem;border-radius:6px;font-size:.95rem;font-weight:500;color:var(--mut);transition:color .2s,background .2s}
+nav a:hover{color:var(--fg)}
+nav a.on{color:var(--fg);background:var(--pur)}
+.burger{display:none;background:none;border:1px solid var(--line);color:var(--fg);width:44px;height:44px;border-radius:8px;font-size:1.3rem;cursor:pointer}
+
+/* views: one nav item = one page */
+.view{display:none;flex:1;padding:4.5rem 0 5rem}
+.view.on{display:block}
+.view>.wrap>*+*{margin-top:1rem}
+.lead{font-size:1.15rem;color:#d9d4e2}
+
+/* buttons */
+.btn{display:inline-block;padding:.85rem 1.5rem;border-radius:6px;font-weight:700;font-size:.98rem;border:1.5px solid var(--pur);transition:transform .15s,background .2s}
+.btn.fill{background:var(--pur)}
+.btn:hover{transform:translateY(-2px)}
+.btn.fill:hover{background:#9645ff}
+.row{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem!important}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;min-height:62vh}
+.hero h1 span{color:var(--pur2)}
+.hero p{margin-top:1.4rem}
+.art{position:relative;aspect-ratio:1;max-width:460px;justify-self:center;width:100%}
+.art img{width:100%;height:100%;object-fit:contain;border-radius:12px}
+.trace{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.trace path{fill:none;stroke:var(--pur);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;animation:draw 2.6s .3s ease forwards}
+.trace circle{fill:var(--pur);opacity:0;animation:pop .4s 2.4s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+.stack{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:3rem!important;padding-top:1.5rem;border-top:1px solid var(--line)}
+.stack span{border:1px solid var(--line);border-radius:999px;padding:.3rem .9rem;font-size:.88rem;color:var(--mut)}
+
+/* lists */
+.rows{border-top:1px solid var(--line);margin-top:2.2rem!important}
+.item{display:grid;grid-template-columns:minmax(200px,.8fr) 1.6fr;gap:2rem;padding:1.7rem 0;border-bottom:1px solid var(--line);transition:background .2s,padding .2s}
+.item:hover{background:var(--panel);padding-left:1rem}
+.item h3{color:var(--fg)}
+.item p{max-width:none}
+.tag{display:inline-block;margin-top:.7rem;font-size:.82rem;color:var(--pur2)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem!important;counter-reset:s}
+.steps div{border-left:2px solid var(--pur);padding:.2rem 0 .2rem 1rem;counter-increment:s}
+.steps div::before{content:counter(s);font-family:var(--disp);color:var(--pur2);font-size:.9rem}
+.steps h3{font-size:.95rem;margin:.3rem 0}
+.steps p{font-size:.92rem}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2.5rem!important}
+.val{padding:1.2rem 0;border-top:1px solid var(--line)}
+.num{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem!important}
+.num div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1.3rem}
+.num strong{font-family:var(--disp);font-size:1.6rem;color:var(--pur2);font-weight:400;display:block}
+
+/* contact */
+form{display:grid;gap:1rem}
+label{font-size:.92rem;font-weight:500;display:grid;gap:.4rem}
+input,select,textarea{background:var(--panel);border:1px solid var(--line);color:var(--fg);border-radius:8px;padding:.8rem 1rem;font:inherit;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--pur);outline:none}
+textarea{min-height:130px;resize:vertical}
+#ok{color:var(--pur2);min-height:1.5em}
+.info p+p{margin-top:.8rem}
+.info strong{color:var(--fg)}
+
+footer{border-top:1px solid var(--line);padding:1.8rem 0;font-size:.9rem;color:var(--mut)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+
+@media(max-width:860px){
+.burger{display:block}
+nav{position:absolute;top:68px;left:0;right:0;background:#000;border-bottom:1px solid var(--line);display:none;padding:.6rem 4%}
+nav.open{display:block}
+nav ul{flex-direction:column}
+.hero,.split,.item{grid-template-columns:1fr}
+.hero{gap:2rem}
+.art{max-width:300px;order:-1}
+.steps,.num{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){.steps,.num{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.trace path{stroke-dashoffset:0}.trace circle{opacity:1}}
+
+/* welcome */
+#welcome{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;cursor:pointer;animation:wipe 1.8s 1.3s cubic-bezier(.7,0,.3,1) forwards}
+#welcome.done{display:none}
+.wm{font-family:var(--disp);font-size:clamp(1.8rem,6vw,3rem);text-align:center;animation:fade 1s .1s both}
+.wm b{color:var(--pur);font-weight:400}
+.wm small{display:block;font:500 .85rem var(--body);color:var(--mut);margin-top:.7rem;letter-spacing:.08em}
+#welcome .z{position:absolute;top:50%;left:-20%;width:160px;height:160px;overflow:hidden;transform:translate(-50%,-50%);filter:drop-shadow(0 0 22px var(--pur));animation:sweep 1.8s 1.3s cubic-bezier(.7,0,.3,1) forwards}
+#welcome .z img{position:absolute;width:334px;max-width:none;left:-87px;top:-52px}
+@keyframes sweep{to{left:120%}}
+@keyframes wipe{from{clip-path:inset(0 0 0 -20%)}to{clip-path:inset(0 0 0 120%)}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+@keyframes in{from{opacity:0;transform:translateY(18px)}}
+#prog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--pur);z-index:30}
+.view.on>.wrap{animation:in .6s ease}
+#beranda .wrap{position:relative;z-index:0}
+#net{position:absolute;left:0;top:0;width:100%;height:min(100%,640px);opacity:.5;z-index:-1}
+.art{transition:transform .15s ease-out}
+.typed{color:#fff;font-weight:700}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--pur2);margin-left:3px;vertical-align:-.2em;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.item:hover,.num div:hover,.pj:hover{background-image:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(130,39,255,.22),transparent 70%)}
+.num.four{grid-template-columns:repeat(4,1fr)}
+.pic{width:100%;height:auto;border:1px solid var(--line);border-radius:12px;background:#000}
+.split.mid{align-items:center}
+.ln{transform-box:fill-box;transform-origin:left;animation:typeln 4s ease-in-out infinite}
+.ln:nth-child(2){animation-delay:.3s}.ln:nth-child(3){animation-delay:.6s}.ln:nth-child(4){animation-delay:.9s}.ln:nth-child(5){animation-delay:1.2s}.ln:nth-child(6){animation-delay:1.5s}
+@keyframes typeln{0%{transform:scaleX(0)}30%,85%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+.bar{transform-box:fill-box;transform-origin:bottom;animation:grow 2.4s ease-in-out infinite alternate}
+.bar:nth-child(2n){animation-delay:.4s}.bar:nth-child(3n){animation-delay:.8s}
+@keyframes grow{from{transform:scaleY(.35)}}
+.nd{fill:#8227ff;transform-box:fill-box;transform-origin:center;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.5);fill:#b385ff}}
+.quote{border-left:3px solid var(--pur);padding:.5rem 0 .5rem 1.4rem;font-size:1.2rem;color:#e6e0ef;max-width:62ch;margin-top:3rem!important}
+.quote cite{display:block;font-size:.9rem;color:var(--mut);margin-top:.6rem;font-style:normal}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem!important}
+.chips button{background:none;border:1px solid var(--line);color:var(--mut);border-radius:999px;padding:.45rem 1.1rem;font:inherit;font-size:.92rem;cursor:pointer;transition:.2s}
+.chips button:hover{border-color:var(--pur);color:#fff}
+.chips button.on{background:var(--pur);border-color:var(--pur);color:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;margin-top:1.5rem!important}
+.pj{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);transition:transform .25s,border-color .25s;animation:in .5s}
+.pj[hidden]{display:none}
+.pj:hover{transform:translateY(-6px);border-color:var(--pur)}
+.th{background:#000;border-bottom:1px solid var(--line);padding:1rem}
+.th svg{width:100%;display:block}
+.pb{padding:1.2rem}
+.faq details{border-bottom:1px solid var(--line);padding:1rem 0}
+.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--pur2);font-size:1.4rem;line-height:1;transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:.7rem;animation:in .4s}
+footer{padding:3rem 0 1.5rem}
+footer .wrap{display:block}
+.fgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:2.5rem}
+.fgrid p{margin-top:.9rem}
+.soc{display:flex;gap:.6rem;margin:1.3rem 0;flex-wrap:wrap}
+.ic{width:44px;height:44px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;color:var(--fg);transition:.2s}
+.ic:hover{background:var(--pur);border-color:var(--pur);transform:translateY(-3px) rotate(-5deg)}
+.ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.map{width:100%;height:230px;border:1px solid var(--line);border-radius:12px;filter:invert(.92) hue-rotate(180deg) saturate(.6)}
+.copy{margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+@media(max-width:860px){.num.four{grid-template-columns:1fr 1fr}.fgrid{grid-template-columns:1fr}}
+@media(max-width:520px){.num.four{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#welcome{display:none}}
+html[data-theme=light]{--bg:#f7f5fb;--fg:#17121f;--mut:#625b6d;--pur:#7131db;--pur2:#6929ce;--line:#e4deec;--panel:#fff;--soft:#393244}.theme-toggle{background:var(--panel);border:1px solid var(--line);color:var(--fg);height:44px;border-radius:8px;cursor:pointer}@media(max-width:520px){.view{padding:2.4rem 0 3rem}.hero{min-height:0}.art{max-width:210px}.pgrid{grid-template-columns:1fr}.wrap{width:calc(100% - 2rem)}.num,.num.four,.steps{grid-template-columns:1fr 1fr}}
+html[data-theme=light] .lead,html[data-theme=light] .typed,html[data-theme=light] .quote{color:var(--fg)!important}html[data-theme=light] header{background:var(--header)}html[data-theme=light] nav{background:var(--bg)}html[data-theme=light] .faq summary{color:var(--fg)}html[data-theme=light] .chips button{color:var(--mut)}html[data-theme=light] .chips button.on,html[data-theme=light] .chips button:hover{color:#fff}html[data-theme=light] #welcome{background:var(--bg)}
+header .bar{animation:none!important;transform:none!important}svg .bar{transform-box:fill-box;transform-origin:bottom;animation:grow 2.4s ease-in-out infinite alternate}svg .bar:nth-child(2n){animation-delay:.4s}svg .bar:nth-child(3n){animation-delay:.8s}nav a,nav a:hover{transform:none!important;filter:none!important}.btn.fill{color:#fff!important}.gmail-btn{background:#7131db!important;border-color:#7131db!important}.portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;margin-top:1.8rem}.portfolio-card{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--panel)}.portfolio-card>svg,.portfolio-photo{display:block;width:100%;height:auto;max-height:none;object-fit:contain;background:var(--panel)}.portfolio-body{padding:1.2rem}.portfolio-body h3{margin:.55rem 0}.portfolio-source{margin-top:1.2rem}.portfolio-source a{color:var(--pur2);text-decoration:underline}@media(max-width:700px){.portfolio-grid{grid-template-columns:1fr}}
+.home-visual{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}.home-visual a{position:relative;overflow:hidden;border-radius:12px;min-height:150px;border:1px solid var(--line)}.home-visual img{width:100%;height:auto;object-fit:contain;display:block;transition:transform .25s}.home-visual a:hover img{transform:scale(1.03)}.home-visual span{position:absolute;left:.8rem;bottom:.8rem;padding:.35rem .65rem;border-radius:6px;background:#0b0911dd;color:#fff;font-size:.85rem}@media(max-width:520px){.home-visual{gap:.65rem}.home-visual img{height:auto}.home-visual span{font-size:.74rem;left:.45rem;bottom:.45rem}}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:2rem}.testimonial-card{position:relative;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:1.4rem;min-height:230px;display:flex;flex-direction:column;justify-content:space-between}.testimonial-mark{font:3rem/1 Georgia,serif;color:var(--pur2)}.testimonial-card blockquote{color:var(--fg);font-size:1rem;line-height:1.7}.testimonial-by{margin-top:1.2rem;font-size:.82rem;color:var(--mut);border-top:1px solid var(--line);padding-top:.8rem}@media(max-width:800px){.testimonial-grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.testimonial-grid{grid-template-columns:1fr}.testimonial-card{min-height:0}}
+.tech-stack{align-items:center}.stack .tech-logo{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.45rem .85rem;background:var(--panel);border-color:var(--line);color:var(--fg);white-space:nowrap}.tech-logo img,.tech-logo svg{width:22px;height:22px;object-fit:contain;flex:none}.tech-logo svg{fill:var(--pur2)}.stack .cloud-logos{gap:.35rem}.cloud-logos img{width:20px;height:20px}@media(max-width:520px){.stack .tech-logo{font-size:.82rem;padding:.4rem .65rem;gap:.35rem}.tech-logo img,.tech-logo svg{width:19px;height:19px}}
+</style>
+</head>
+<body>
+<div id="welcome" aria-hidden="true"><div class="wm"><b>Z</b>yntax<small>Software &amp; AI Engineering</small></div><div class="z"><img src="logo.png" alt=""></div></div>
+<div id="prog"></div>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#beranda" aria-label="Zyntax, ke Beranda">
+      <span class="mark"><img src="logo.png" alt=""></span><span><b>Z</b>yntax</span>
+    </a>
+    <button class="theme-toggle" type="button" aria-label="Ganti tema">💡</button><button class="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
+    <nav aria-label="Navigasi utama">
+      <ul>
+        <li><a href="#beranda" data-v="beranda">Beranda</a></li>
+        <li><a href="#layanan" data-v="layanan">Layanan</a></li>
+        <li><a href="#ai" data-v="ai">Solusi AI</a></li>
+        <li><a href="#proyek" data-v="proyek">Proyek</a></li><li><a href="#portofolio" data-v="portofolio">Portofolio</a></li>
+        <li><a href="#tentang" data-v="tentang">Tentang</a></li><li><a href="#testimoni" data-v="testimoni">Testimoni</a></li>
+        <li><a href="#kontak" data-v="kontak">Kontak</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- BERANDA -->
+<section class="view" id="beranda">
+  <div class="wrap">
+    <canvas id="net" aria-hidden="true"></canvas>
+    <div class="hero">
+      <div>
+        <h1>Software dan AI yang bekerja untuk bisnis Anda.</h1>
+        <p class="lead">Zyntax adalah tim developer dan AI engineer di Jakarta. Kami membangun aplikasi, platform, dan sistem cerdas yang siap dipakai tim Anda setiap hari.</p>
+        <p class="typed">Kami membangun <b id="type"></b><i class="caret"></i></p>
+        <div class="row">
+          <a class="btn fill" href="#kontak">Mulai konsultasi</a>
+          <a class="btn" href="#proyek">Lihat proyek</a>
+        </div>
+      </div>
+      <div class="art" aria-hidden="true">
+        <img src="logo.png" alt="">
+        <svg class="trace" viewBox="0 0 1254 1254"><path d="M430 630 L570 570 L685 455 L760 428"/><path d="M472 572 L548 538 L662 424 L812 364"/><circle cx="430" cy="630" r="19"/><circle cx="472" cy="572" r="19"/><circle cx="760" cy="428" r="19"/><circle cx="812" cy="364" r="19"/></svg>
+      </div>
+    </div>
+    <div class="stack tech-stack" aria-label="Teknologi yang kami gunakan">
+<span class="tech-logo"><img src="https://cdn.simpleicons.org/python/3776AB" alt="" loading="lazy">Python</span>
+<span class="tech-logo"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="" loading="lazy">TypeScript</span>
+<span class="tech-logo"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="" loading="lazy">React</span>
+<span class="tech-logo"><img src="https://cdn.simpleicons.org/nodedotjs/5FA04E" alt="" loading="lazy">Node.js</span>
+<span class="tech-logo"><img src="https://cdn.simpleicons.org/pytorch/EE4C2C" alt="" loading="lazy">PyTorch</span>
+<span class="tech-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4H6.5A2.5 2.5 0 0 1 4 13.5z"/><circle cx="9" cy="9.5" r="1"/><circle cx="12" cy="9.5" r="1"/><circle cx="15" cy="9.5" r="1"/></svg>LLM &amp; RAG</span>
+<span class="tech-logo"><img src="https://cdn.simpleicons.org/postgresql/4169E1" alt="" loading="lazy">PostgreSQL</span>
+<span class="tech-logo cloud-logos"><img src="https://cdn.simpleicons.org/amazonaws/FF9900" alt="" loading="lazy"><img src="https://cdn.simpleicons.org/googlecloud/4285F4" alt="" loading="lazy">AWS &amp; GCP</span>
+</div>
+    <div class="home-visual"><a href="#portofolio"><img src="images/bumindo-page.webp" alt="Screenshot halaman Bumindo Group" loading="lazy"><span>Bumindo Group - otomotif</span></a><a href="#portofolio"><img src="images/satu-langkah-page.webp" alt="Screenshot halaman Satu Langkah" loading="lazy"><span>Satu Langkah - volunteer</span></a></div>
+<div class="num four">
+      <div><strong data-n="40" data-s="+">0</strong><p>Proyek selesai</p></div>
+      <div><strong data-n="25" data-s="+">0</strong><p>Klien aktif</p></div>
+      <div><strong data-n="12">0</strong><p>Model AI di produksi</p></div>
+      <div><strong data-n="98" data-s="%">0</strong><p>Klien yang puas</p></div>
+    </div>
+    <h2 style="margin-top:4rem">Mengapa memilih Zyntax</h2>
+    <div class="split mid">
+      <svg class="pic" viewBox="0 0 400 260" role="img" aria-label="Ilustrasi editor kode"><rect x="20" y="20" width="360" height="220" rx="12" fill="#0d0b11" stroke="#26202e"/><circle cx="42" cy="42" r="5" fill="#8227ff"/><circle cx="60" cy="42" r="5" fill="#b385ff"/><circle cx="78" cy="42" r="5" fill="#fff"/><g stroke-width="8" stroke-linecap="round"><path class="ln" d="M44 80h90" stroke="#b385ff"/><path class="ln" d="M64 106h150" stroke="#fff"/><path class="ln" d="M64 132h110" stroke="#8227ff"/><path class="ln" d="M84 158h170" stroke="#fff"/><path class="ln" d="M64 184h70" stroke="#b385ff"/><path class="ln" d="M44 210h120" stroke="#8227ff"/></g></svg>
+      <div>
+        <div class="val"><h3>Satu tim, dua keahlian</h3><p>Developer dan AI engineer bekerja bersama sejak hari pertama, jadi fitur AI langsung menyatu dengan aplikasi Anda.</p></div>
+        <div class="val"><h3>Rilis bertahap</h3><p>Anda melihat hasil kerja setiap dua minggu dan bisa mengubah arah sebelum anggaran terpakai.</p></div>
+        <div class="val"><h3>Kode milik Anda</h3><p>Seluruh kode, data, dan dokumentasi diserahkan penuh saat proyek selesai.</p></div>
+      </div>
+    </div>
+    <blockquote class="quote">Prototipe asisten dokumen jadi dalam tiga minggu, dan tim kami langsung memakainya. Penjelasan Zyntax selalu mudah dipahami.<cite>Contoh testimoni, Kepala Operasional, perusahaan logistik</cite></blockquote>
+    <div class="row"><a class="btn fill" href="#layanan">Jelajahi layanan</a><a class="btn" href="#ai">Lihat solusi AI</a></div>
+  </div>
+</section>
+
+<!-- LAYANAN -->
+<section class="view" id="layanan">
+  <div class="wrap">
+    <h2>Layanan pengembangan software</h2>
+    <p class="lead">Dari ide sampai rilis dan perawatan, satu tim menangani seluruh siklusnya.</p>
+    <div class="rows">
+      <article class="item"><div><h3>Aplikasi web</h3><span class="tag">React, Next.js, Node.js</span></div><p>Website perusahaan, dashboard internal, dan portal pelanggan yang cepat, aman, dan mudah dikembangkan.</p></article>
+      <article class="item"><div><h3>Aplikasi mobile</h3><span class="tag">Flutter, React Native</span></div><p>Satu basis kode untuk Android dan iOS, dengan notifikasi, pembayaran, dan mode offline.</p></article>
+      <article class="item"><div><h3>Software kustom</h3><span class="tag">ERP, CRM, sistem operasional</span></div><p>Sistem yang dirancang mengikuti alur kerja Anda, bukan sebaliknya. Cocok bila software siap pakai sudah tidak cukup.</p></article>
+      <article class="item"><div><h3>Integrasi dan cloud</h3><span class="tag">API, DevOps, AWS, GCP</span></div><p>Menghubungkan sistem yang sudah ada, memindahkan beban kerja ke cloud, dan menjaga layanan tetap stabil.</p></article>
+      <article class="item"><div><h3>Desain UI/UX</h3><span class="tag">Figma, riset pengguna</span></div><p>Riset, wireframe, dan prototipe interaktif yang diuji ke pengguna nyata sebelum satu baris kode ditulis.</p></article>
+      <article class="item"><div><h3>Pengujian dan QA</h3><span class="tag">Otomatis dan manual</span></div><p>Uji fungsi, performa, dan keamanan agar rilis berjalan tanpa kejutan.</p></article>
+      <article class="item"><div><h3>Perawatan dan dukungan</h3><span class="tag">SLA, monitoring</span></div><p>Pemantauan, perbaikan bug, dan pembaruan berkala setelah peluncuran, dengan waktu respons yang disepakati.</p></article>
+    </div>
+    <div class="split mid">
+      <svg class="pic" viewBox="0 0 400 260" role="img" aria-label="Ilustrasi dashboard aplikasi"><rect x="20" y="20" width="360" height="220" rx="12" fill="#0d0b11" stroke="#26202e"/><path d="M20 56h360" stroke="#26202e"/><circle cx="40" cy="38" r="5" fill="#8227ff"/><rect x="36" y="76" width="70" height="148" rx="6" fill="#16101f"/><g fill="#8227ff"><rect class="bar" x="130" y="150" width="30" height="74" rx="4"/><rect class="bar" x="175" y="120" width="30" height="104" rx="4"/><rect class="bar" x="220" y="96" width="30" height="128" rx="4"/><rect class="bar" x="265" y="132" width="30" height="92" rx="4"/><rect class="bar" x="310" y="82" width="30" height="142" rx="4" fill="#b385ff"/></g></svg>
+      <div><h3>Dari ide sampai rilis</h3><p>Kami mulai dengan workshop singkat untuk memetakan masalah, lalu membangun versi pertama yang bisa langsung dicoba. Setiap dua minggu Anda menerima demo dan laporan kemajuan.</p>
+      <div class="stack" style="margin-top:1rem!important;border:0;padding:0"><span>Agile</span><span>CI/CD</span><span>Docker</span><span>Keamanan OWASP</span></div></div>
+    </div>
+    <h2 style="margin-top:4rem">Pertanyaan umum</h2>
+    <div class="faq">
+      <details><summary>Berapa lama proyek biasanya berjalan?</summary><p>Aplikasi sederhana butuh 4 sampai 8 minggu. Sistem yang lebih besar dikerjakan bertahap, dengan rilis pertama dalam 6 sampai 10 minggu.</p></details>
+      <details><summary>Bagaimana sistem biayanya?</summary><p>Anda bisa memilih harga tetap per paket kerja atau tarif bulanan per tim. Estimasi diberikan gratis setelah sesi konsultasi.</p></details>
+      <details><summary>Apakah kode menjadi milik kami?</summary><p>Ya. Seluruh kode sumber dan dokumentasi diserahkan penuh setelah pembayaran selesai.</p></details>
+      <details><summary>Apakah Zyntax melanjutkan sistem yang sudah ada?</summary><p>Bisa. Kami audit dulu kode Anda, lalu menyarankan perbaikan atau penulisan ulang sebagian saja.</p></details>
+    </div>
+    <div class="row"><a class="btn fill" href="#kontak">Diskusikan kebutuhan Anda</a></div>
+  </div>
+</section>
+
+<!-- SOLUSI AI -->
+<section class="view" id="ai">
+  <div class="wrap">
+    <h2>Solusi AI untuk pekerjaan nyata</h2>
+    <p class="lead">Kami merancang, melatih, dan menjalankan model AI yang terhubung langsung ke data dan sistem Anda.</p>
+    <div class="rows">
+      <article class="item"><div><h3>Asisten AI dan chatbot</h3><span class="tag">LLM, RAG</span></div><p>Asisten yang menjawab dari dokumen dan basis pengetahuan perusahaan Anda, untuk layanan pelanggan maupun tim internal.</p></article>
+      <article class="item"><div><h3>Computer vision</h3><span class="tag">Deteksi, OCR</span></div><p>Membaca gambar dan video untuk inspeksi kualitas, penghitungan stok, dan ekstraksi data dari dokumen.</p></article>
+      <article class="item"><div><h3>Prediksi dan analitik</h3><span class="tag">Machine learning</span></div><p>Perkiraan permintaan, deteksi anomali, dan skor risiko dari data historis Anda.</p></article>
+      <article class="item"><div><h3>Pencarian cerdas</h3><span class="tag">Embedding, vector search</span></div><p>Pencarian berdasarkan makna, sehingga karyawan menemukan dokumen yang dicari walau tidak tahu kata kuncinya.</p></article>
+      <article class="item"><div><h3>Analisis sentimen</h3><span class="tag">NLP bahasa Indonesia</span></div><p>Memahami ulasan, tiket, dan komentar pelanggan untuk melihat masalah yang sering muncul.</p></article>
+      <article class="item"><div><h3>Otomasi proses</h3><span class="tag">Agen AI, workflow</span></div><p>Mengotomatiskan pekerjaan berulang seperti klasifikasi email, pengisian formulir, dan pembuatan laporan.</p></article>
+    </div>
+    <div class="steps">
+      <div><h3>Pahami masalah</h3><p>Kami mengukur proses saat ini dan menentukan target yang jelas.</p></div>
+      <div><h3>Uji data</h3><p>Kami memeriksa kualitas data dan membuat prototipe cepat.</p></div>
+      <div><h3>Bangun dan evaluasi</h3><p>Model diuji dengan data nyata sebelum masuk produksi.</p></div>
+      <div><h3>Rilis dan pantau</h3><p>Kinerja dipantau terus dan model diperbarui bila perlu.</p></div>
+    </div>
+    <div class="split mid">
+      <svg class="pic" id="netpic" viewBox="0 0 400 260" role="img" aria-label="Ilustrasi jaringan saraf tiruan"></svg>
+      <div><h3>Data Anda tetap aman</h3><p>Data tidak dipakai melatih model publik. Kami bisa menjalankan model di server Anda sendiri atau di cloud privat, dengan kontrol akses dan jejak audit pada setiap permintaan.</p>
+      <div class="stack" style="margin-top:1rem!important;border:0;padding:0"><span>On-premise</span><span>Enkripsi</span><span>Audit log</span><span>Kepatuhan UU PDP</span></div></div>
+    </div>
+    <div class="row"><a class="btn fill" href="#kontak">Bahas ide AI Anda</a></div>
+  </div>
+</section>
+
+<!-- PROYEK -->
+<section class="view" id="proyek">
+  <div class="wrap">
+    <h2>Proyek pilihan</h2>
+    <p class="lead">Contoh pekerjaan yang menggambarkan cara kami bekerja. Pilih kategori untuk menyaring.</p>
+    <div class="chips" role="group" aria-label="Filter proyek"><button class="on" data-f="all">Semua</button><button data-f="web">Web</button><button data-f="mobile">Mobile</button><button data-f="ai">AI</button></div>
+    <div class="pgrid"><article class="pj" data-c="web"><div class="th" data-t="web"></div><div class="pb"><h3>Platform logistik terpadu</h3><p>Pelacakan pengiriman real-time untuk operator dengan puluhan gudang. Rekap harian turun dari jam menjadi menit.</p><span class="tag">Web, API, dashboard</span></div></article><article class="pj" data-c="ai"><div class="th" data-t="ai"></div><div class="pb"><h3>Asisten dokumen firma hukum</h3><p>Pencarian dan ringkasan ribuan kontrak dengan rujukan ke pasal sumber, sehingga setiap jawaban bisa diverifikasi.</p><span class="tag">LLM, RAG</span></div></article><article class="pj" data-c="ai"><div class="th" data-t="ai"></div><div class="pb"><h3>Inspeksi kualitas berbasis kamera</h3><p>Deteksi cacat pada lini produksi, berjalan di perangkat tepi dan mengirim peringatan langsung ke operator.</p><span class="tag">Computer vision</span></div></article><article class="pj" data-c="mobile"><div class="th" data-t="mobile"></div><div class="pb"><h3>Aplikasi pesan antar UMKM</h3><p>Aplikasi Android dan iOS dengan pembayaran digital dan mode offline untuk ratusan merchant.</p><span class="tag">Flutter, payment</span></div></article><article class="pj" data-c="ai"><div class="th" data-t="ai"></div><div class="pb"><h3>Prakiraan permintaan ritel</h3><p>Prediksi stok per cabang yang membantu mengurangi barang kedaluwarsa dan kekosongan rak.</p><span class="tag">Machine learning</span></div></article><article class="pj" data-c="web"><div class="th" data-t="web"></div><div class="pb"><h3>Portal HR dan penggajian</h3><p>Pengajuan cuti, slip gaji, dan persetujuan berjenjang dalam satu portal untuk 1.500 karyawan.</p><span class="tag">Web, SSO</span></div></article></div>
+  </div>
+</section>
+
+<!-- TENTANG -->
+<section class="view" id="tentang">
+  <div class="wrap">
+    <h2>Tentang Zyntax</h2>
+    <p class="lead">Nama kami berasal dari syntax, aturan yang membuat kode bisa dipahami mesin. Kami percaya software yang baik juga harus bisa dipahami manusia.</p>
+    <div class="split">
+      <div>
+        <h3>Cara kami bekerja</h3>
+        <p>Kami tim kecil yang terdiri dari software engineer dan AI engineer. Anda berbicara langsung dengan orang yang menulis kodenya, bukan perantara. Setiap proyek dimulai dengan masalah bisnis, lalu baru memilih teknologinya.</p>
+      </div>
+      <div>
+        <div class="val"><h3>Jelas</h3><p>Lingkup, jadwal, dan biaya disepakati sejak awal.</p></div>
+        <div class="val"><h3>Terukur</h3><p>Setiap fitur AI punya metrik keberhasilan yang bisa diperiksa.</p></div>
+        <div class="val"><h3>Berkelanjutan</h3><p>Kode bersih dan dokumentasi lengkap, sehingga Anda tidak terkunci pada kami.</p></div>
+      </div>
+    </div>
+    <div class="num">
+      <div><strong>Jakarta</strong><p>Kantor dan tim inti</p></div>
+      <div><strong>Web + AI</strong><p>Dua keahlian dalam satu tim</p></div>
+      <div><strong>Senin–Jumat</strong><p>09.00–18.00 WIB</p></div>
+    </div>
+    <h2 style="margin-top:4rem">Perjalanan kami</h2>
+    <div class="steps">
+      <div><h3>2021</h3><p>Zyntax berdiri sebagai studio software kecil di Jakarta.</p></div>
+      <div><h3>2022</h3><p>Proyek enterprise pertama dan terbentuknya tim data.</p></div>
+      <div><h3>2024</h3><p>Peluncuran layanan AI, dari chatbot sampai computer vision.</p></div>
+      <div><h3>2026</h3><p>Melayani klien lintas industri dengan tim lebih dari 20 orang.</p></div>
+    </div>
+    <div class="split mid">
+      <svg class="pic" viewBox="0 0 400 260" role="img" aria-label="Alur dari ide ke kode ke rilis"><g fill="#0d0b11" stroke="#8227ff" stroke-width="2"><rect x="20" y="100" width="90" height="60" rx="10"/><rect x="155" y="100" width="90" height="60" rx="10"/><rect x="290" y="100" width="90" height="60" rx="10"/></g><g fill="#fff" font-family="Manrope,sans-serif" font-size="16" text-anchor="middle"><text x="65" y="136">Ide</text><text x="200" y="136">Kode</text><text x="335" y="136">Rilis</text></g><path d="M110 130h45M245 130h45" stroke="#b385ff" stroke-width="2"/><circle r="6" fill="#b385ff"><animateMotion dur="3s" repeatCount="indefinite" path="M65 130H335"/></circle></svg>
+      <div><h3>Ruang kerja yang terbuka</h3><p>Klien bergabung di kanal chat bersama tim kami, melihat papan tugas, dan menerima demo rutin. Tidak ada proses yang tersembunyi.</p>
+      <div class="row"><a class="btn fill" href="#kontak">Bertemu tim kami</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="portofolio"><div class="wrap"><h2>Portofolio</h2><p class="lead">Proyek yang pernah dikerjakan.</p><div class="portfolio-grid">
+<article class="portfolio-card"><img class="portfolio-photo" src="images/bumindo-page.webp" alt="Teknisi sedang bekerja pada mobil di Bumindo Group" loading="lazy"><div class="portfolio-body"><span class="tag">Web Development</span><h3>Bumindo Group</h3><p>Website untuk perusahaan startup otomotif mobil.</p></div></article>
+<article class="portfolio-card"><img class="portfolio-photo" src="images/satu-langkah-page.webp" alt="Screenshot halaman Satu Langkah, ditampilkan utuh" loading="lazy"><div class="portfolio-body"><span class="tag">Full-stack Web Development</span><h3>Satu Langkah</h3><p>Website full-stack untuk organisasi volunteer.</p></div></article></div></div></section>
+<section class="view" id="testimoni"><div class="wrap"><h2>Testimoni</h2><p class="lead">Contoh susunan ulasan. Ganti dengan kutipan dan persetujuan dari klien sebelum dipublikasikan.</p><div class="testimonial-grid">
+<article class="testimonial-card"><span class="testimonial-mark" aria-hidden="true">“</span><blockquote>Komunikasi tim jelas dan proses pengerjaan terasa terarah. Kami dapat memahami progres dan langkah berikutnya dengan mudah.</blockquote><p class="testimonial-by">Contoh ulasan klien - proyek software</p></article>
+<article class="testimonial-card"><span class="testimonial-mark" aria-hidden="true">“</span><blockquote>Tim membantu menerjemahkan kebutuhan kami menjadi solusi yang praktis. Hasilnya mudah dipakai dan sesuai dengan alur kerja.</blockquote><p class="testimonial-by">Contoh ulasan klien - proyek web</p></article>
+<article class="testimonial-card"><span class="testimonial-mark" aria-hidden="true">“</span><blockquote>Kolaborasinya menyenangkan. Kami mendapat penjelasan yang mudah dipahami dan dukungan yang responsif selama pengerjaan.</blockquote><p class="testimonial-by">Contoh ulasan klien - solusi digital</p></article>
+</div></div></section>
+<!-- KONTAK -->
+<section class="view" id="kontak">
+  <div class="wrap">
+    <h2>Hubungi kami</h2>
+    <p class="lead">Ceritakan kebutuhan Anda. Kami membalas dalam satu hari kerja.</p>
+    <div class="split">
+      <form id="f">
+        <label>Nama<input name="nama" required autocomplete="name"></label>
+        <label>Email<input name="email" type="email" required autocomplete="email"></label>
+        <label>Topik
+          <select name="topik"><option>Pengembangan software</option><option>Solusi AI</option><option>Perawatan sistem</option><option>Lainnya</option></select>
+        </label>
+        <label>Pesan<textarea name="pesan" required></textarea></label>
+        <button class="btn fill" type="submit">Kirim pesan</button>
+        <p id="ok" role="status"></p>
+      </form>
+      <div class="info">
+        <p><strong>Email</strong><br><a href="mailto:novalrayan97@gmail.com">novalrayan97@gmail.com</a></p><p><strong>WhatsApp</strong><br><a href="https://wa.me/6285719562762" target="_blank" rel="noopener">+62 857-1956-2762 - Chat WhatsApp</a></p>
+        <p><strong>Lokasi</strong><br>Jakarta, Indonesia</p>
+        <p><strong>Jam kerja</strong><br>Senin–Jumat, 09.00–18.00 WIB</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#beranda"><span class="mark"><img src="logo.png" alt=""></span><span><b>Z</b>yntax</span></a>
+        <p>Software developer dan AI engineer di Jakarta. Ceritakan kebutuhan Anda, kami balas dalam satu hari kerja.</p>
+        <div class="soc">
+          <a class="ic" href="https://mail.google.com/mail/?view=cm&fs=1&to=novalrayan97@gmail.com" target="_blank" rel="noopener" aria-label="Gmail"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg></a>
+          <a class="ic" href="https://instagram.com/zyntax.id" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5v.01"/></svg></a>
+          <a class="ic" href="https://wa.me/6285719562762" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a><a class="ic" href="https://linkedin.com/company/zyntax" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v5M8 8v.01M12 16v-5M12 13a2.5 2.5 0 015 0v3"/></svg></a>
+          <a class="ic" href="https://x.com/zyntax_id" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+          <a class="ic" href="https://youtube.com/@zyntax" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="M10 9l5 3-5 3z"/></svg></a>
+        </div>
+        <a class="btn fill" href="https://mail.google.com/mail/?view=cm&fs=1&to=novalrayan97@gmail.com" target="_blank" rel="noopener">Kirim lewat Gmail</a>
+      </div>
+      <iframe class="map" title="Lokasi Zyntax di Jakarta" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Jakarta%20Selatan&amp;output=embed"></iframe>
+    </div>
+    <div class="copy"><span>© 2026 Zyntax. Software developer dan AI engineer.</span><span>novalrayan97@gmail.com · Jakarta, Indonesia</span></div>
+  </div>
+</footer>
+<button id="chat-open" type="button" style="position:fixed;right:20px;bottom:20px;z-index:40;border:0;border-radius:50%;width:56px;height:56px;background:#8227ff;color:white;font-size:24px;cursor:pointer" aria-label="Buka chatbot">?</button><section id="chatbox" style="display:none;position:fixed;right:16px;bottom:88px;z-index:40;width:min(360px,calc(100vw - 32px));height:420px;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:14px;padding:14px"><button id="chat-close" type="button" style="float:right">Tutup</button><h3>Asisten Zyntax</h3><div id="chatlog" style="height:300px;overflow:auto;padding:10px 0">Halo! Tanyakan tentang layanan, estimasi, atau AI.</div><form id="chatform"><input name="q" maxlength="1000" required placeholder="Tulis pertanyaan"><button>Kirim</button></form></section>
+<script>
+const views=[...document.querySelectorAll('.view')],links=[...document.querySelectorAll('nav a')],
+nav=document.querySelector('nav'),burger=document.querySelector('.burger');
+function show(){
+  let id=location.hash.slice(1);
+  if(!views.some(v=>v.id===id))id='beranda';
+  views.forEach(v=>v.classList.toggle('on',v.id===id));
+  links.forEach(a=>{const on=a.dataset.v===id;a.classList.toggle('on',on);on?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+  nav.classList.remove('open');burger.setAttribute('aria-expanded','false');
+  document.title=(id==='beranda'?'':document.getElementById(id).querySelector('h2').textContent+' | ')+'Zyntax';
+  window.scrollTo({top:0,behavior:'instant'});count();
+}
+addEventListener('hashchange',show);show();const themeBtn=document.querySelector('.theme-toggle');function setTheme(t){document.documentElement.dataset.theme=t;themeBtn.textContent=t==='light'?'🌙':'💡'}setTheme(localStorage.getItem('zyntax-theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark'));themeBtn.onclick=()=>{const t=document.documentElement.dataset.theme==='light'?'dark':'light';localStorage.setItem('zyntax-theme',t);setTheme(t)};
+burger.addEventListener('click',()=>{const o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o)});
+const DB_URL='https://YOUR_PROJECT.supabase.co',DB_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
+document.getElementById('f').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,d=Object.fromEntries(new FormData(f)),o=document.getElementById('ok');try{if(DB_URL.includes('YOUR_PROJECT'))throw Error('Database belum dikonfigurasi. Silakan hubungi novalrayan97@gmail.com.');const r=await fetch(DB_URL+'/rest/v1/contact_messages',{method:'POST',headers:{'Content-Type':'application/json',apikey:DB_ANON_KEY,Authorization:'Bearer '+DB_ANON_KEY,Prefer:'return=minimal'},body:JSON.stringify({name:d.nama,email:d.email,topic:d.topik,message:d.pesan})});if(!r.ok)throw Error('Pesan gagal disimpan. Coba lagi.');o.textContent='Terima kasih! Pesan Anda tersimpan.';f.reset()}catch(x){o.textContent=x.message}});
+const cb=document.getElementById('chatbox'),log=document.getElementById('chatlog');document.getElementById('chat-open').onclick=()=>cb.style.display='block';document.getElementById('chat-close').onclick=()=>cb.style.display='none';document.getElementById('chatform').onsubmit=e=>{e.preventDefault();const q=e.currentTarget.q.value.trim(),u=document.createElement('p'),a=document.createElement('p');u.textContent='Anda: '+q;const low=q.toLowerCase();a.textContent=/harga|biaya|tarif/.test(low)?'Asisten: Estimasi biaya awal gratis setelah konsultasi.':/lama|durasi|minggu/.test(low)?'Asisten: Aplikasi sederhana biasanya 48 minggu; proyek besar bertahap.':/ai|chatbot/.test(low)?'Asisten: Kami membuat chatbot RAG, computer vision, prediksi, dan otomasi AI.':'Asisten: Zyntax melayani aplikasi web/mobile, software kustom, integrasi cloud, UI/UX, QA, dan perawatan. Tulis ke novalrayan97@gmail.com untuk kebutuhan khusus.';log.append(u,a);e.currentTarget.reset();log.scrollTop=log.scrollHeight};
+
+const wel=document.getElementById('welcome');setTimeout(()=>wel.classList.add('done'),3300);wel.onclick=()=>wel.classList.add('done');
+function count(){document.querySelectorAll('.view.on [data-n]').forEach(e=>{const n=+e.dataset.n,s=performance.now();(function u(t){const q=Math.min((t-s)/1400,1);e.textContent=Math.round(n*(1-Math.pow(1-q,3)))+(e.dataset.s||'');if(q<1)requestAnimationFrame(u)})(s)})}
+const pr=document.getElementById('prog');addEventListener('scroll',()=>pr.style.width=scrollY/Math.max(1,document.body.scrollHeight-innerHeight)*100+'%');
+addEventListener('pointermove',e=>{const t=e.target.closest&&e.target.closest('.item,.num div,.pj');if(t){const r=t.getBoundingClientRect();t.style.setProperty('--mx',e.clientX-r.left+'px');t.style.setProperty('--my',e.clientY-r.top+'px')}});
+const art=document.querySelector('.art');
+art.addEventListener('pointermove',e=>{const r=art.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;art.style.transform=`perspective(700px) rotateY(${x*18}deg) rotateX(${-y*18}deg)`});
+art.addEventListener('pointerleave',()=>art.style.transform='');
+const T=['aplikasi web yang cepat.','asisten AI untuk tim Anda.','dashboard yang mudah dibaca.','sistem otomasi yang andal.'],te=document.getElementById('type');let ti=0,ci=0,dl=0;
+(function ty(){const w=T[ti];ci+=dl?-1:1;te.textContent=w.slice(0,ci);let d=dl?25:60;if(!dl&&ci===w.length){dl=1;d=1600}else if(dl&&ci===0){dl=0;ti=(ti+1)%T.length;d=300}setTimeout(ty,d)})();
+(()=>{const c=document.getElementById('net'),x=c.getContext('2d'),m={x:-999,y:-999},home=document.getElementById('beranda');let W=0,H=0,P=[];
+if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+c.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();m.x=e.clientX-r.left;m.y=e.clientY-r.top});
+(function f(){if(home.classList.contains('on')){if(c.offsetWidth!==W||c.offsetHeight!==H){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;P=Array.from({length:Math.min(60,W/18|0)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}))}
+x.clearRect(0,0,W,H);for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;const dx=p.x-m.x,dy=p.y-m.y,d=Math.hypot(dx,dy)||1;if(d<120){p.x+=dx/d*1.3;p.y+=dy/d*1.3}x.fillStyle='#8227ff';x.beginPath();x.arc(p.x,p.y,2,0,7);x.fill()}
+for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);if(d<110){x.strokeStyle=`rgba(130,39,255,${1-d/110})`;x.beginPath();x.moveTo(P[i].x,P[i].y);x.lineTo(P[j].x,P[j].y);x.stroke()}}}
+requestAnimationFrame(f)})()})();
+const TH={web:'<svg viewBox="0 0 200 110"><rect x="8" y="8" width="184" height="94" rx="8" fill="#0d0b11" stroke="#8227ff"/><path d="M8 28h184" stroke="#8227ff"/><g fill="#b385ff"><rect class="bar" x="24" y="60" width="18" height="30"/><rect class="bar" x="52" y="48" width="18" height="42"/><rect class="bar" x="80" y="38" width="18" height="52"/><rect class="bar" x="108" y="52" width="18" height="38"/></g><rect x="140" y="42" width="38" height="48" rx="4" fill="#16101f"/></svg>',
+ai:'<svg viewBox="0 0 200 110"><g stroke="#3a2a55"><path d="M30 25L100 55M30 55L100 55M30 85L100 55M100 55L170 30M100 55L170 80"/></g><g><circle class="nd" cx="30" cy="25" r="9"/><circle class="nd" cx="30" cy="55" r="9" style="animation-delay:.3s"/><circle class="nd" cx="30" cy="85" r="9" style="animation-delay:.6s"/><circle class="nd" cx="100" cy="55" r="11" style="animation-delay:.9s"/><circle class="nd" cx="170" cy="30" r="9" style="animation-delay:1.2s"/><circle class="nd" cx="170" cy="80" r="9" style="animation-delay:1.5s"/></g></svg>',
+mobile:'<svg viewBox="0 0 200 110"><rect x="72" y="4" width="56" height="102" rx="10" fill="#0d0b11" stroke="#8227ff"/><g fill="#b385ff"><rect class="bar" x="82" y="20" width="36" height="16" rx="3"/><rect class="bar" x="82" y="44" width="36" height="16" rx="3" fill="#8227ff"/><rect class="bar" x="82" y="68" width="36" height="16" rx="3"/></g></svg>'};
+document.querySelectorAll('.th').forEach(e=>e.innerHTML=TH[e.dataset.t]);
+(()=>{const n=document.getElementById('netpic'),L=[[60,130,200],[40,100,160,220],[90,170]],X=[60,200,340];let a='',b='';L.forEach((l,i)=>l.forEach((y,j)=>{if(L[i+1])L[i+1].forEach(y2=>a+=`<path d="M${X[i]} ${y}L${X[i+1]} ${y2}" stroke="#3a2a55"/>`);b+=`<circle class="nd" style="animation-delay:${(i*4+j)*.2}s" cx="${X[i]}" cy="${y}" r="10"/>`}));n.innerHTML=a+b})();
+document.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chips button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.pj').forEach(p=>{const ok=b.dataset.f==='all'||p.dataset.c===b.dataset.f;p.hidden=!ok;if(ok){p.style.animation='none';p.offsetWidth;p.style.animation=''}})});
+</script>
+</body>
+</html>
